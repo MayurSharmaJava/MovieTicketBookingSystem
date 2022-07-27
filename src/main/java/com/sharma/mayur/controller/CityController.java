@@ -15,42 +15,42 @@ import java.util.List;
 public class CityController {
 
 	@Autowired
-	private CityRepository CityRepository;
+	private CityRepository cityRepository;
 
 	// get all City
 	@GetMapping
 	public List<City> getAllCity() {
-		return this.CityRepository.findAll();
+		return this.cityRepository.findAll();
 	}
 
 	// get City by id
 	@GetMapping("/{id}")
-	public City getCityById(@PathVariable (value = "id") long CityId) {
-		return this.CityRepository.findById(CityId)
-				.orElseThrow(() -> new ResourceNotFoundException("City not found with id :" + CityId));
+	public City getCityById(@PathVariable (value = "id") long cityId) {
+		return this.cityRepository.findById(cityId)
+				.orElseThrow(() -> new ResourceNotFoundException("City not found with id :" + cityId));
 	}
 
 	// create City
 	@PostMapping
-	public City createCity(@RequestBody City City) {
-		return this.CityRepository.save(City);
+	public City createCity(@RequestBody City city) {
+		return this.cityRepository.save(city);
 	}
 	
 	// update City
 	@PutMapping("/{id}")
-	public City updateCity(@RequestBody City City, @PathVariable ("id") long CityId) {
-		 City existingCity = this.CityRepository.findById(CityId)
-			.orElseThrow(() -> new ResourceNotFoundException("City not found with id :" + CityId));
-		 existingCity.setName(City.getName());
-		 return this.CityRepository.save(existingCity);
+	public City updateCity(@RequestBody City city, @PathVariable ("id") long cityId) {
+		 City existingCity = this.cityRepository.findById(cityId)
+			.orElseThrow(() -> new ResourceNotFoundException("City not found with id :" + cityId));
+		 existingCity.setName(city.getName());
+		 return this.cityRepository.save(existingCity);
 	}
 	
 	// delete City by id
 	@DeleteMapping("/{id}")
-	public ResponseEntity<City> deleteCity(@PathVariable ("id") long CityId){
-		 City existingCity = this.CityRepository.findById(CityId)
-					.orElseThrow(() -> new ResourceNotFoundException("City not found with id :" + CityId));
-		 this.CityRepository.delete(existingCity);
+	public ResponseEntity<City> deleteCity(@PathVariable ("id") long cityId){
+		 City existingCity = this.cityRepository.findById(cityId)
+					.orElseThrow(() -> new ResourceNotFoundException("City not found with id :" + cityId));
+		 this.cityRepository.delete(existingCity);
 		 return ResponseEntity.ok().build();
 	}
 }

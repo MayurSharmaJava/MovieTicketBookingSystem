@@ -15,49 +15,49 @@ import java.util.List;
 public class MovieShowController {
 
 	@Autowired
-	private MovieShowRepository MovieShowRepository;
+	private MovieShowRepository movieShowRepository;
 
 	// get all MovieShowShow
 	@GetMapping
 	public List<MovieShow> getAllMovieShowShow() {
-		return this.MovieShowRepository.findAll();
+		return this.movieShowRepository.findAll();
 	}
 
 	// get MovieShow by id
 	@GetMapping("/{id}")
-	public MovieShow getMovieShowById(@PathVariable (value = "id") long MovieShowId) {
-		return this.MovieShowRepository.findById(MovieShowId)
-				.orElseThrow(() -> new ResourceNotFoundException("MovieShow not found with id :" + MovieShowId));
+	public MovieShow getMovieShowById(@PathVariable (value = "id") long movieShowId) {
+		return this.movieShowRepository.findById(movieShowId)
+				.orElseThrow(() -> new ResourceNotFoundException("MovieShow not found with id :" + movieShowId));
 	}
 
 	// create MovieShow
 	@PostMapping
-	public MovieShow createMovieShow(@RequestBody MovieShow MovieShow) {
-		return this.MovieShowRepository.save(MovieShow);
+	public MovieShow createMovieShow(@RequestBody MovieShow movieShow) {
+		return this.movieShowRepository.save(movieShow);
 	}
 	
 	// update MovieShow
 	@PutMapping("/{id}")
-	public MovieShow updateMovieShow(@RequestBody MovieShow MovieShow, @PathVariable ("id") long MovieShowId) {
-		MovieShow existingMovieShow = this.MovieShowRepository.findById(MovieShowId)
-			.orElseThrow(() -> new ResourceNotFoundException("MovieShow not found with id :" + MovieShowId));
-		existingMovieShow.setName(MovieShow.getName());
-		existingMovieShow.setDate(MovieShow.getDate());
-		existingMovieShow.setStartTime(MovieShow.getStartTime());
-		existingMovieShow.setEndTime(MovieShow.getEndTime());
-		existingMovieShow.setMovie(MovieShow.getMovie());
-		existingMovieShow.setTheater(MovieShow.getTheater());
-		existingMovieShow.setScreen(MovieShow.getScreen());
-		existingMovieShow.setSeats(MovieShow.getSeats());
-		return this.MovieShowRepository.save(existingMovieShow);
+	public MovieShow updateMovieShow(@RequestBody MovieShow movieShow, @PathVariable ("id") long movieShowId) {
+		MovieShow existingMovieShow = this.movieShowRepository.findById(movieShowId)
+			.orElseThrow(() -> new ResourceNotFoundException("MovieShow not found with id :" + movieShowId));
+		existingMovieShow.setName(movieShow.getName());
+		existingMovieShow.setDate(movieShow.getDate());
+		existingMovieShow.setStartTime(movieShow.getStartTime());
+		existingMovieShow.setEndTime(movieShow.getEndTime());
+		existingMovieShow.setMovie(movieShow.getMovie());
+		existingMovieShow.setTheater(movieShow.getTheater());
+		existingMovieShow.setScreen(movieShow.getScreen());
+		existingMovieShow.setSeats(movieShow.getSeats());
+		return this.movieShowRepository.save(existingMovieShow);
 	}
 	
 	// delete MovieShow by id
 	@DeleteMapping("/{id}")
-	public ResponseEntity<MovieShow> deleteMovieShow(@PathVariable ("id") long MovieShowId){
-		 MovieShow existingMovieShow = this.MovieShowRepository.findById(MovieShowId)
-					.orElseThrow(() -> new ResourceNotFoundException("MovieShow not found with id :" + MovieShowId));
-		 this.MovieShowRepository.delete(existingMovieShow);
+	public ResponseEntity<MovieShow> deleteMovieShow(@PathVariable ("id") long movieShowId){
+		 MovieShow existingMovieShow = this.movieShowRepository.findById(movieShowId)
+					.orElseThrow(() -> new ResourceNotFoundException("MovieShow not found with id :" + movieShowId));
+		 this.movieShowRepository.delete(existingMovieShow);
 		 return ResponseEntity.ok().build();
 	}
 }

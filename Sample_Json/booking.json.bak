@@ -1,0 +1,27 @@
+{
+  "amount": 200,
+  "bookingDate": "2022-07-27T01:40:32.812Z",
+  "id": 0,
+  "movieShow": {
+    "id": 4
+  },
+  "payment": {
+    "amount": 200,
+    "id": 0,
+    "status": "Pending",
+    "transactionNo": "3424234",
+    "type": "UPI"
+  },
+  "seats": [
+    {
+      "id": 5
+    },
+	{
+      "id": 6
+    }
+  ],
+  "status": "Booked",
+  "user": {
+    "id": 1    
+  }
+}

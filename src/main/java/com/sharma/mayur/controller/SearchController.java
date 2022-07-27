@@ -1,7 +1,6 @@
 package com.sharma.mayur.controller;
 
 import com.sharma.mayur.entity.MovieShow;
-import com.sharma.mayur.entity.Theater;
 import com.sharma.mayur.repository.TheaterRepository;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -27,31 +26,29 @@ public class SearchController {
 
 	// get Booking by id
 	@GetMapping("/{movie_id}/{city_id}/{search_date}")
-	public List<MovieShow> getShowByMovie(
-			@PathVariable (value = "movie_id") long movie_id,
-			@PathVariable (value = "city_id") long city_id,
-			@PathVariable (value = "search_date") String search_date) {
+	public List<MovieShow> searchShow(
+			@PathVariable (value = "movie_id") long movieId,
+			@PathVariable (value = "city_id") long cityId,
+			@PathVariable (value = "search_date") String searchDate) {
 		Session session = entityManager.unwrap(Session.class);
 
 		String hql = "FROM MovieShow S WHERE S.movie.id = :movie_id " +
 				"						 and S.theater.address.city.id = :city_id" +
 				"						 and S.date = :search_date";
 		Query query = session.createQuery(hql);
-		query.setParameter("movie_id",movie_id);
-		query.setParameter("city_id",city_id);
+		query.setParameter("movie_id",movieId);
+		query.setParameter("city_id",cityId);
 
 		SimpleDateFormat formatter=new SimpleDateFormat("dd-MM-yyyy");
 		try {
-			Date date = formatter.parse(search_date);
+			Date date = formatter.parse(searchDate);
 			query.setParameter("search_date",date);
 		} catch (ParseException e) {
-			//--Handel Exception Invalid Date and Return Proper Response
+			//TODO: --Handel Exception Invalid Date and Return Proper Response
 			e.printStackTrace();
 		}
-		List<MovieShow> results = query.list();
 
-		return results;
+		return query.list();
 	}
-
 
 }

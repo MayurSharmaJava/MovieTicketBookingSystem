@@ -1,0 +1,81 @@
+{
+  "name": "Morning Show",
+  "date": "2022-07-25T12:48:15.088Z",
+  "startTime": "2022-07-30T06:00:15.088Z",
+  "endTime": "2022-07-30T09:00:15.088Z",
+  "id": 0,
+  "movie": {
+	  "id": 1
+	},
+  "theater": {
+	  "id": 5	  
+	},
+  "screen": {
+      "id": 9 
+    },
+  "seats": [
+    {
+      "id": 0,
+      "price": 100,
+      "seatNumber": "A1",
+      "status": "Available",
+      "type": "Premium"
+    },
+	{
+      "id": 0,
+      "price": 100,
+      "seatNumber": "A2",
+      "status": "Available",
+      "type": "Premium"
+    },
+	{
+      "id": 0,
+      "price": 100,
+      "seatNumber": "A3",
+      "status": "Available",
+      "type": "VIP"
+    }
+  ]
+}
+
+
+
+{
+  "name": "Evening Show",
+  "date": "2022-07-25T12:48:15.088Z",
+  "startTime": "2022-07-30T06:00:15.088Z",
+  "endTime": "2022-07-30T09:00:15.088Z",
+  "id": 0,
+  "movie": {
+	  "id": 2
+	},
+  "theater": {
+	  "id": 3	  
+	},
+  "screen": {
+      "id": 5 
+    },
+  "seats": [
+    {
+      "id": 0,
+      "price": 100,
+      "seatNumber": "A1",
+      "status": "Available",
+      "type": "Economy"
+    },
+	{
+      "id": 0,
+      "price": 100,
+      "seatNumber": "A2",
+      "status": "Available",
+      "type": "Economy"
+    },
+	{
+      "id": 0,
+      "price": 100,
+      "seatNumber": "A3",
+      "status": "Available",
+      "type": "VIP"
+    }
+  ]
+}

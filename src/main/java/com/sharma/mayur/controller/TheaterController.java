@@ -25,34 +25,34 @@ public class TheaterController {
 
 	// get Theater by id
 	@GetMapping("/{id}")
-	public Theater getTheaterById(@PathVariable (value = "id") long TheaterId) {
-		return this.theaterRepository.findById(TheaterId)
-				.orElseThrow(() -> new ResourceNotFoundException("Theater not found with id :" + TheaterId));
+	public Theater getTheaterById(@PathVariable (value = "id") long theaterId) {
+		return this.theaterRepository.findById(theaterId)
+				.orElseThrow(() -> new ResourceNotFoundException("Theater not found with id :" + theaterId));
 	}
 
 	// create Theater
 	@PostMapping
-	public Theater createTheater(@RequestBody Theater Theater) {
-		return this.theaterRepository.save(Theater);
+	public Theater createTheater(@RequestBody Theater theater) {
+		return this.theaterRepository.save(theater);
 	}
 	
 	// update Theater
 	@PutMapping("/{id}")
-	public Theater updateTheater(@RequestBody Theater Theater, @PathVariable ("id") long TheaterId) {
-		 Theater existingTheater = this.theaterRepository.findById(TheaterId)
-			.orElseThrow(() -> new ResourceNotFoundException("Theater not found with id :" + TheaterId));
-		 existingTheater.setName(Theater.getName());
-		 existingTheater.setAddress(Theater.getAddress());
-		 existingTheater.setPinCode(Theater.getPinCode());
-		 existingTheater.setScreen(Theater.getScreen());
+	public Theater updateTheater(@RequestBody Theater theater, @PathVariable ("id") long theaterId) {
+		 Theater existingTheater = this.theaterRepository.findById(theaterId)
+			.orElseThrow(() -> new ResourceNotFoundException("Theater not found with id :" + theaterId));
+		 existingTheater.setName(theater.getName());
+		 existingTheater.setAddress(theater.getAddress());
+		 existingTheater.setPinCode(theater.getPinCode());
+		 existingTheater.setScreen(theater.getScreen());
 		 return this.theaterRepository.save(existingTheater);
 	}
 	
 	// delete Theater by id
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Theater> deleteTheater(@PathVariable ("id") long TheaterId){
-		 Theater existingTheater = this.theaterRepository.findById(TheaterId)
-					.orElseThrow(() -> new ResourceNotFoundException("Theater not found with id :" + TheaterId));
+	public ResponseEntity<Theater> deleteTheater(@PathVariable ("id") long theaterId){
+		 Theater existingTheater = this.theaterRepository.findById(theaterId)
+					.orElseThrow(() -> new ResourceNotFoundException("Theater not found with id :" + theaterId));
 		 this.theaterRepository.delete(existingTheater);
 		 return ResponseEntity.ok().build();
 	}

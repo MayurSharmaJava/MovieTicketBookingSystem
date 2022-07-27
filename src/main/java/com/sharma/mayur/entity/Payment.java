@@ -12,10 +12,10 @@ import javax.persistence.*;
 public class Payment {
 
 	enum STATUS {
-		Pending,
-		Success,
-		Failed,
-		Refund
+		PENDING,
+		SUCCESS,
+		FAILED,
+		REFUND
 	}
 
 	@Id

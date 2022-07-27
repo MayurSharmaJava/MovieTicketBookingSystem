@@ -1,0 +1,80 @@
+{
+  "id": 0,
+  "name": "MaxusCinema",
+  "pinCode": "401105",
+  "address": {
+	"id": 0,
+    "addressLine1": "Add Line 1",
+    "addressLine2": "Address Line 2",
+    "city": {"id": 1},
+    "country": "India",
+    "state": "Maharastra"
+  },
+  "screen": [
+    {
+      "capacity": 200,
+      "id": 0,
+      "name": "Screen1"
+    },
+	{
+      "capacity": 100,
+      "id": 0,
+      "name": "Screen2"
+    }
+  ]
+}
+
+
+{
+  "id": 0,
+  "name": "CineMax",
+  "pinCode": "401105",
+  "address": {
+	"id": 0,
+    "addressLine1": "Add Line 1",
+    "addressLine2": "Address Line 2",
+    "city": {"id": 2},
+    "country": "India",
+    "state": "Maharastra"
+  },
+  "screen": [
+    {
+      "capacity": 100,
+      "id": 0,
+      "name": "Screen1"
+    },
+	{
+      "capacity": 50,
+      "id": 0,
+      "name": "Screen2"
+    }
+  ]
+}
+
+
+
+{
+  "id": 0,
+  "name": "PVR Cinema",
+  "pinCode": "401105",
+  "address": {
+	"id": 0,
+    "addressLine1": "Add Line 1",
+    "addressLine2": "Address Line 2",
+    "city": {"id": 3},
+    "country": "India",
+    "state": "Maharastra"
+  },
+  "screen": [
+    {
+      "capacity": 500,
+      "id": 0,
+      "name": "Screen1"
+    },
+	{
+      "capacity": 500,
+      "id": 0,
+      "name": "Screen2"
+    }
+  ]
+}

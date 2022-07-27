@@ -5,7 +5,6 @@ import lombok.Setter;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -47,5 +46,6 @@ public class MovieShow{
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     @JoinColumn(name = "movie_show_id")
     private List<Seat> seats;
+    //TODO: Convert to Set of Seat , Seat can not be duplicate
 
 }

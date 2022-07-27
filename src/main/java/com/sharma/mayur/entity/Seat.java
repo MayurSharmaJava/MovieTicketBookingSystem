@@ -2,7 +2,6 @@ package com.sharma.mayur.entity;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 
@@ -28,7 +27,6 @@ public class Seat {
 	private String status;
 	
 	@Column(name = "type")
-	@Enumerated(EnumType.STRING)
 	private String type;
 	
 	@Column(name = "price")
