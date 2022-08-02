@@ -18,8 +18,9 @@ public class MovieShowController {
 	private MovieShowRepository movieShowRepository;
 
 	// get all MovieShowShow
+	//TODO: Pagination
 	@GetMapping
-	public List<MovieShow> getAllMovieShowShow() {
+	public List<MovieShow> getAllMovieShow() {
 		return this.movieShowRepository.findAll();
 	}
 
