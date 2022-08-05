@@ -16,7 +16,7 @@ import java.util.Optional;
 
 
 @RestController
-@RequestMapping("/api/pre-booking")
+@RequestMapping("/api/pre-booking-lock")
 public class PreBookingController {
 
 	@Autowired

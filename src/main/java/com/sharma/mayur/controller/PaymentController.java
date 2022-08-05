@@ -13,7 +13,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/api/Payment")
+@RequestMapping("/api/payment")
 public class PaymentController {
 
 
@@ -23,7 +23,7 @@ public class PaymentController {
 	@Autowired
 	private BookingController bookingController;
 
-	@PostMapping("/success")
+	@PostMapping("/status")
 	public void paymentSuccess(@RequestBody Booking booking) {
 		bookingController.bookAndGenerateTicket(booking);
 	}

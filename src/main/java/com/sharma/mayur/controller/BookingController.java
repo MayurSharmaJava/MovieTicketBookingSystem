@@ -15,8 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 
-@RestController
-@RequestMapping("/api/booking")
+@RestController @RequestMapping("/api/booking")
 public class BookingController {
 
 
@@ -49,7 +48,7 @@ public class BookingController {
 		 	Payment Api will call next method createBooking
 		 	In create Booking will again verify that Lock is still Hold by same User before saving Booking
 	 **/
-	@PostMapping("preBook")
+	@PostMapping("pre-booking")
 	public void preBooking(@RequestBody Booking booking) {
 
 		//Proceed Only if Seat Available & booking is Not locked

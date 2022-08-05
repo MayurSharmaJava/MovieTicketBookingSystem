@@ -40,7 +40,7 @@ public class MovieShow{
     private Theater theater;
 
     @OneToOne
-    private Screen screen;
+    private Screen screen;//-- TODO: re-evaluate
 
     @OneToMany
     @Cascade(org.hibernate.annotations.CascadeType.ALL)

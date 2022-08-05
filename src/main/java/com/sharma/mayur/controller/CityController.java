@@ -1,5 +1,6 @@
 package com.sharma.mayur.controller;
 
+import com.sharma.mayur.constant.CommonConstant;
 import com.sharma.mayur.entity.City;
 import com.sharma.mayur.exception.ResourceNotFoundException;
 import com.sharma.mayur.repository.CityRepository;
@@ -27,7 +28,7 @@ public class CityController {
 	@GetMapping("/{id}")
 	public City getCityById(@PathVariable (value = "id") long cityId) {
 		return this.cityRepository.findById(cityId)
-				.orElseThrow(() -> new ResourceNotFoundException("City not found with id :" + cityId));
+				.orElseThrow(() -> new ResourceNotFoundException(CommonConstant.CITY_NOT_FOUND_WITH_ID + cityId));
 	}
 
 	// create City
@@ -40,7 +41,7 @@ public class CityController {
 	@PutMapping("/{id}")
 	public City updateCity(@RequestBody City city, @PathVariable ("id") long cityId) {
 		 City existingCity = this.cityRepository.findById(cityId)
-			.orElseThrow(() -> new ResourceNotFoundException("City not found with id :" + cityId));
+			.orElseThrow(() -> new ResourceNotFoundException(CommonConstant.CITY_NOT_FOUND_WITH_ID + cityId));
 		 existingCity.setName(city.getName());
 		 return this.cityRepository.save(existingCity);
 	}
@@ -49,7 +50,7 @@ public class CityController {
 	@DeleteMapping("/{id}")
 	public ResponseEntity<City> deleteCity(@PathVariable ("id") long cityId){
 		 City existingCity = this.cityRepository.findById(cityId)
-					.orElseThrow(() -> new ResourceNotFoundException("City not found with id :" + cityId));
+					.orElseThrow(() -> new ResourceNotFoundException(CommonConstant.CITY_NOT_FOUND_WITH_ID+ cityId));
 		 this.cityRepository.delete(existingCity);
 		 return ResponseEntity.ok().build();
 	}
