@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.booking</groupId>
-	<artifactId>tbs</artifactId>
+	<artifactId>BookingApplication</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>tbs</name>
 	<properties>
@@ -24,10 +24,10 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-		<!--<dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-hateoas</artifactId>
-		</dependency>-->
+		</dependency>
 
 		<dependency>
 			<groupId>mysql</groupId>
