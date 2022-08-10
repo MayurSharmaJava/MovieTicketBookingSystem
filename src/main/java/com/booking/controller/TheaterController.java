@@ -3,11 +3,13 @@ package com.booking.controller;
 import com.booking.entity.MovieShow;
 import com.booking.entity.Theater;
 import com.booking.exception.ResourceNotFoundException;
+import com.booking.pojo.MovieShowModel;
 import com.booking.pojo.TheaterModel;
 import com.booking.repository.TheaterRepository;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.LinkRelation;
@@ -36,16 +38,21 @@ public class TheaterController {
 
 	// get Booking by id
 	@GetMapping
-	public List<TheaterModel> getTheater(
+	public List<MovieShowModel> search(
 			@RequestParam ("movie_id") long movieId,
 			@RequestParam (value = "city_id") long cityId,
-			@RequestParam (value = "search_date") String searchDate) {
+			@RequestParam (value = "search_date") String searchDate,
+			@RequestParam (value = "page") int page,
+			@RequestParam (value = "size") int size) {
 		Session session = entityManager.unwrap(Session.class);
 
-		String hql = "select theater FROM MovieShow S WHERE S.movie.id = :movie_id " +
+		String hql = "FROM MovieShow S WHERE S.movie.id = :movie_id " +
 				"						 and S.theater.address.city.id = :city_id" +
 				"						 and S.date = :search_date";
 		Query query = session.createQuery(hql);
+		query.setFirstResult(page*size);
+		query.setMaxResults(size);
+
 		query.setParameter("movie_id",movieId);
 		query.setParameter("city_id",cityId);
 
@@ -58,19 +65,34 @@ public class TheaterController {
 			e.printStackTrace();
 		}
 
-		List<Theater> list = query.list();
-		List<TheaterModel> theaterModels = new ArrayList<>();
+		List<MovieShow> list = query.list();
+		List<MovieShowModel> movieShowModels = new ArrayList<>();
 		list.forEach(x-> {
-			TheaterModel theaterModel = new TheaterModel(x.getId(),x.getName(), x.getPinCode());
+			Theater theater = x.getTheater();
+			TheaterModel theaterModel = new TheaterModel(theater.getId(),theater.getName(), theater.getPinCode());
+			Link theaterLink = WebMvcLinkBuilder.linkTo(
+							WebMvcLinkBuilder.methodOn(TheaterController.class).getTheaterById(theater.getId())
+						).withRel("Theater Details");
+			theaterModel.add(theaterLink);
 
-			Link link = WebMvcLinkBuilder.linkTo(
-							WebMvcLinkBuilder.methodOn(TheaterController.class).getTheaterById(x.getId())
-						).withSelfRel();
-			theaterModel.add(link);
-			theaterModels.add(theaterModel);
+			MovieShowModel movieShowModel = new MovieShowModel();
+			movieShowModel.setTheater(theaterModel);
+
+			movieShowModel.setId(x.getId());
+			movieShowModel.setName(x.getName());
+			movieShowModel.setMovie(x.getMovie());
+			movieShowModel.setDate(x.getDate());
+			movieShowModel.setStartTime(x.getStartTime());
+			movieShowModel.setEndTime(x.getEndTime());
+
+			Link seatLink = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(MovieShowController.class).getSeatByMovieShow(x.getId())).withRel("seat availability");
+
+			movieShowModel.add(seatLink);
+
+			movieShowModels.add(movieShowModel);
 		});
 
-		return theaterModels;
+		return movieShowModels;
 	}
 
 	// get Theater by id

@@ -1,15 +1,19 @@
 package com.booking.controller;
 
 import com.booking.constant.CommonConstant;
+import com.booking.entity.Payment;
 import com.booking.repository.BookingRepository;
 import com.booking.entity.Booking;
 import com.booking.entity.PreBooking;
 import com.booking.entity.Seat;
 import com.booking.exception.ResourceNotFoundException;
+import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityManager;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
@@ -27,6 +31,9 @@ public class BookingController {
 
 	@Autowired
 	private SeatController seatController;
+
+	@Autowired
+	private EntityManager entityManager;
 
 	// get all Bookings
 	@GetMapping
@@ -49,7 +56,7 @@ public class BookingController {
 		 	In create Booking will again verify that Lock is still Hold by same User before saving Booking
 	 **/
 	@PostMapping("pre-booking")
-	public void preBooking(@RequestBody Booking booking) {
+	public String preBooking(@RequestBody Booking booking) {
 
 		//Proceed Only if Seat Available & booking is Not locked
 		Optional<PreBooking> optionalPreBooking = preBookingController.getPreBookingByLockPattern(getLockPattern(booking));
@@ -59,6 +66,11 @@ public class BookingController {
 			 * Call to third party Payment API goes here
 			 * Pay_BY_UPI(booking.getId(), booking.getAmount());
 			 */
+			booking.setStatus(CommonConstant.PENDING);
+			booking.getSeats().stream().forEach(seat -> seat.setStatus(CommonConstant.AVAILABLE));
+			Booking save = bookingRepository.save(booking);
+
+			return String.valueOf(save.getId());
 		}
 		else{
 			throw new ResourceNotFoundException("Please try after some time.");
@@ -95,18 +107,31 @@ public class BookingController {
 		return showId+seatIds;
 	}
 
-	public void bookAndGenerateTicket(Booking booking){
-		booking.getSeats().stream().forEach(seat -> seat.setStatus(CommonConstant.BOOKED));
+	public void bookAndGenerateTicket(Payment payment){
 
-		createBooking(booking);
+		if(CommonConstant.PAYMENT_SUCCESS.equalsIgnoreCase(payment.getStatus())) {
 
-		markSeatBooked(booking);
+			Session session = entityManager.unwrap(Session.class);
 
-		/**
-		 * generate QRCODE
-		 * generate Ticket
-		 * Send it over Mail / SMS / whatsapp
-		 */
+			String hql = "FROM Booking B WHERE B.payment.transactionNo = :transactionNo";
+
+			Query<Booking> query = session.createQuery(hql);
+			query.setParameter("transactionNo", payment.getTransactionNo());
+			Booking booking = query.getSingleResult();
+
+			booking.setStatus(CommonConstant.BOOKED);
+			booking.getSeats().stream().forEach(seat -> seat.setStatus(CommonConstant.BOOKED));
+
+			createBooking(booking);
+
+			//markSeatBooked(booking);
+
+			/**
+			 * generate QRCODE
+			 * generate Ticket
+			 * Send it over Mail / SMS / whatsapp
+			 */
+		}
 	}
 
 	private void markSeatBooked(Booking booking) {

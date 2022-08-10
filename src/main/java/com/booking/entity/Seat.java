@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "seat")
+@Table(name = "Seat")
 public class Seat {
 	enum SEAT_TYPE {
 		Economy,

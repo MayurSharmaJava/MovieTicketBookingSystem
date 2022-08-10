@@ -3,10 +3,13 @@ package com.booking.controller;
 import com.booking.entity.Seat;
 import com.booking.exception.ResourceNotFoundException;
 import com.booking.repository.SeatRepository;
+import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 
 
@@ -17,11 +20,11 @@ public class SeatController {
 	@Autowired
 	private SeatRepository seatRepository;
 
-	// get all users
-	@GetMapping
-	public List<Seat> getAllSeats() {
-		return this.seatRepository.findAll();
-	}
+	@Autowired
+	private EntityManager entityManager;
+
+
+
 
 	// get user by id
 	@GetMapping("/{id}")

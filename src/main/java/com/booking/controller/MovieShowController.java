@@ -1,12 +1,18 @@
 package com.booking.controller;
 
 import com.booking.entity.MovieShow;
+import com.booking.entity.Seat;
 import com.booking.exception.ResourceNotFoundException;
 import com.booking.repository.MovieShowRepository;
+import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 
 
@@ -16,6 +22,18 @@ public class MovieShowController {
 
 	@Autowired
 	private MovieShowRepository movieShowRepository;
+
+	@Autowired
+	private EntityManager entityManager;
+
+	// get all users
+	@GetMapping("/{id}/seats")
+	public List<Seat> getSeatByMovieShow(
+			@PathVariable ("id") long movieShowId
+	) {
+		MovieShow movieShowById = getMovieShowById(movieShowId);
+		return movieShowById.getSeats();
+	}
 
 	// get all MovieShowShow
 	//TODO: Pagination
