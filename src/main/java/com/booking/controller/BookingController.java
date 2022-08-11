@@ -2,6 +2,9 @@ package com.booking.controller;
 
 import com.booking.constant.CommonConstant;
 import com.booking.entity.Payment;
+import com.booking.pojo.MovieShowModel;
+import com.booking.pojo.TheaterModel;
+import com.booking.pojo.TicketModel;
 import com.booking.repository.BookingRepository;
 import com.booking.entity.Booking;
 import com.booking.entity.PreBooking;
@@ -22,7 +25,6 @@ import java.util.Optional;
 @RestController @RequestMapping("/api/booking")
 public class BookingController {
 
-
 	@Autowired
 	private BookingRepository bookingRepository;
 
@@ -34,12 +36,6 @@ public class BookingController {
 
 	@Autowired
 	private EntityManager entityManager;
-
-	// get all Bookings
-	@GetMapping
-	public List<Booking> getAllBookings() {
-		return this.bookingRepository.findAll();
-	}
 
 	// get Booking by id
 	@GetMapping("/{id}")
@@ -107,31 +103,37 @@ public class BookingController {
 		return showId+seatIds;
 	}
 
-	public void bookAndGenerateTicket(Payment payment){
+	public TicketModel bookAndGenerateTicket(Payment payment){
 
-		if(CommonConstant.PAYMENT_SUCCESS.equalsIgnoreCase(payment.getStatus())) {
+		Session session = entityManager.unwrap(Session.class);
 
-			Session session = entityManager.unwrap(Session.class);
+		String hql = "FROM Booking B WHERE B.payment.transactionNo = :transactionNo";
 
-			String hql = "FROM Booking B WHERE B.payment.transactionNo = :transactionNo";
+		Query<Booking> query = session.createQuery(hql);
+		query.setParameter("transactionNo", payment.getTransactionNo());
+		Booking booking = query.getSingleResult();
 
-			Query<Booking> query = session.createQuery(hql);
-			query.setParameter("transactionNo", payment.getTransactionNo());
-			Booking booking = query.getSingleResult();
+		booking.setStatus(CommonConstant.BOOKED);
+		booking.getSeats().stream().forEach(seat -> seat.setStatus(CommonConstant.BOOKED));
 
-			booking.setStatus(CommonConstant.BOOKED);
-			booking.getSeats().stream().forEach(seat -> seat.setStatus(CommonConstant.BOOKED));
+		createBooking(booking);
+		TicketModel ticketModel = new TicketModel();
+		ticketModel.setId(booking.getId());
+		ticketModel.setAmount(booking.getAmount());
+		ticketModel.setSeats(booking.getSeats());
+		ticketModel.setMovieName(booking.getMovieShow().getMovie().getName());
+		ticketModel.setStartTime(booking.getMovieShow().getStartTime());
+		ticketModel.setEndTime(booking.getMovieShow().getEndTime());
+		ticketModel.setTheaterName(booking.getMovieShow().getTheater().getName());
+		ticketModel.setScreen(booking.getMovieShow().getScreen().getName());
+		return ticketModel;
 
-			createBooking(booking);
+		/**
+		 * generate QRCODE
+		 * generate Ticket
+		 * Send it over Mail / SMS / whatsapp
+		 */
 
-			//markSeatBooked(booking);
-
-			/**
-			 * generate QRCODE
-			 * generate Ticket
-			 * Send it over Mail / SMS / whatsapp
-			 */
-		}
 	}
 
 	private void markSeatBooked(Booking booking) {
@@ -172,4 +174,11 @@ public class BookingController {
 		 this.bookingRepository.delete(existingBooking);
 		 return ResponseEntity.ok().build();
 	}
+
+	// get all Bookings
+	@GetMapping
+	public List<Booking> getAllBookings() {
+		return this.bookingRepository.findAll();
+	}
+
 }

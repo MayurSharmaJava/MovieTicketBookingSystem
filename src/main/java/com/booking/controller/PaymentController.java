@@ -3,6 +3,7 @@ package com.booking.controller;
 import com.booking.constant.CommonConstant;
 import com.booking.entity.Payment;
 import com.booking.exception.ResourceNotFoundException;
+import com.booking.pojo.TicketModel;
 import com.booking.repository.PaymentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,9 +24,12 @@ public class PaymentController {
 	private BookingController bookingController;
 
 	@PostMapping("/status")
-	public void paymentStatus(@RequestBody Payment payment) {
+	public TicketModel paymentStatus(@RequestBody Payment payment) {
 		this.paymentRepository.save(payment);
-		bookingController.bookAndGenerateTicket(payment);
+		if(CommonConstant.PAYMENT_SUCCESS.equalsIgnoreCase(payment.getStatus())) {
+			return bookingController.bookAndGenerateTicket(payment);
+		}
+		return null;
 	}
 
 	// get all Payments
