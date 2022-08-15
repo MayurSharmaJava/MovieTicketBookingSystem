@@ -3,17 +3,13 @@ package com.booking.controller;
 import com.booking.entity.MovieShow;
 import com.booking.entity.Theater;
 import com.booking.exception.ResourceNotFoundException;
-import com.booking.pojo.MovieShowModel;
-import com.booking.pojo.TheaterModel;
+import com.booking.repository.pojo.MovieShowModel;
+import com.booking.repository.pojo.TheaterModel;
 import com.booking.repository.TheaterRepository;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.bind.DefaultValue;
-import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.hateoas.Link;
-import org.springframework.hateoas.LinkRelation;
-import org.springframework.hateoas.server.LinkBuilder;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,7 +32,6 @@ public class TheaterController {
 	@Autowired
 	private EntityManager entityManager;
 
-	// get Booking by id
 	@GetMapping
 	public List<MovieShowModel> search(
 			@RequestParam ("movie_id") long movieId,
@@ -95,20 +90,17 @@ public class TheaterController {
 		return movieShowModels;
 	}
 
-	// get Theater by id
 	@GetMapping("/{id}")
 	public Theater getTheaterById(@PathVariable (value = "id") long theaterId) {
 		return this.theaterRepository.findById(theaterId)
 				.orElseThrow(() -> new ResourceNotFoundException("Theater not found with id :" + theaterId));
 	}
 
-	// create Theater
 	@PostMapping
 	public Theater createTheater(@RequestBody Theater theater) {
 		return this.theaterRepository.save(theater);
 	}
 	
-	// update Theater
 	@PutMapping
 	public Theater updateTheater(@RequestBody Theater theater, @PathVariable ("id") long theaterId) {
 		 Theater existingTheater = this.theaterRepository.findById(theaterId)
@@ -120,7 +112,6 @@ public class TheaterController {
 		 return this.theaterRepository.save(existingTheater);
 	}
 	
-	// delete Theater by id
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Theater> deleteTheater(@PathVariable ("id") long theaterId){
 		 Theater existingTheater = this.theaterRepository.findById(theaterId)

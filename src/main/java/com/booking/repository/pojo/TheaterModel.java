@@ -1,7 +1,6 @@
-package com.booking.pojo;
+package com.booking.repository.pojo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonRootName;
 import lombok.*;
 import org.springframework.hateoas.RepresentationModel;
 

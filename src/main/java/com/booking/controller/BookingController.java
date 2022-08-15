@@ -1,15 +1,14 @@
 package com.booking.controller;
 
+import com.booking.Util.CommonUtil;
 import com.booking.constant.CommonConstant;
-import com.booking.entity.Payment;
-import com.booking.pojo.MovieShowModel;
-import com.booking.pojo.TheaterModel;
-import com.booking.pojo.TicketModel;
-import com.booking.repository.BookingRepository;
 import com.booking.entity.Booking;
+import com.booking.entity.Payment;
 import com.booking.entity.PreBooking;
 import com.booking.entity.Seat;
 import com.booking.exception.ResourceNotFoundException;
+import com.booking.repository.pojo.TicketModel;
+import com.booking.repository.BookingRepository;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,27 +36,14 @@ public class BookingController {
 	@Autowired
 	private EntityManager entityManager;
 
-	// get Booking by id
-	@GetMapping("/{id}")
-	public Booking getBookingById(@PathVariable (value = "id") long bookingId) {
-		return this.bookingRepository.findById(bookingId)
-				.orElseThrow(() -> new ResourceNotFoundException(CommonConstant.BOOKING_NOT_FOUND_WITH_ID + bookingId));
-	}
-
-	/**
-			Flow:
-			put entry in prebooking table
-		 	Call payment API Pass Booking Object
-		 	Payment Api will call next method createBooking
-		 	In create Booking will again verify that Lock is still Hold by same User before saving Booking
-	 **/
 	@PostMapping("pre-booking")
 	public String preBooking(@RequestBody Booking booking) {
 
 		//Proceed Only if Seat Available & booking is Not locked
-		Optional<PreBooking> optionalPreBooking = preBookingController.getPreBookingByLockPattern(getLockPattern(booking));
+		String lockPattern = CommonUtil.getLockPattern(booking);
+		Optional<PreBooking> optionalPreBooking = preBookingController.getPreBookingByLockPattern(lockPattern));
 		if(isSeatAvailable(booking.getSeats()) && !optionalPreBooking.isPresent()) {
-			lockMySeats(getLockPattern(booking),booking.getUser().getId());
+			lockMySeats(lockPattern,booking.getUser().getId());
 			/**
 			 * Call to third party Payment API goes here
 			 * Pay_BY_UPI(booking.getId(), booking.getAmount());
@@ -93,16 +79,6 @@ public class BookingController {
 		return preBookingController.createBooking(preBooking);
 	}
 
-	private String getLockPattern(Booking booking) {
-
-		StringBuilder seatIds=new StringBuilder();
-		booking.getSeats().forEach(seat -> seatIds.append(seat.getId()));
-
-		String showId = String.valueOf(booking.getMovieShow().getId());
-
-		return showId+seatIds;
-	}
-
 	public TicketModel bookAndGenerateTicket(Payment payment){
 
 		Session session = entityManager.unwrap(Session.class);
@@ -136,22 +112,17 @@ public class BookingController {
 
 	}
 
-	private void markSeatBooked(Booking booking) {
-		for (Seat seat:
-			 booking.getSeats()) {
-			Seat seatById = seatController.getSeatById(seat.getId());
-			seatById.setStatus(CommonConstant.BOOKED);
-			seatController.updateSeat(seatById, seat.getId());
-		}
+	@GetMapping("/{id}")
+	public Booking getBookingById(@PathVariable (value = "id") long bookingId) {
+		return this.bookingRepository.findById(bookingId)
+				.orElseThrow(() -> new ResourceNotFoundException(CommonConstant.BOOKING_NOT_FOUND_WITH_ID + bookingId));
 	}
 
-	// create Booking
 	@PostMapping
 	public Booking createBooking(@RequestBody Booking booking) {
 		return this.bookingRepository.save(booking);
 	}
 	
-	// update Booking
 	@PutMapping("/{id}")
 	public Booking updateBooking(@RequestBody Booking booking, @PathVariable ("id") long bookingId) {
 		 Booking existingBooking = this.bookingRepository.findById(bookingId)
@@ -166,19 +137,12 @@ public class BookingController {
 		return this.bookingRepository.save(existingBooking);
 	}
 	
-	// delete Booking by id
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Booking> deleteBooking(@PathVariable ("id") long bookingId){
 		 Booking existingBooking = this.bookingRepository.findById(bookingId)
 					.orElseThrow(() -> new ResourceNotFoundException(CommonConstant.BOOKING_NOT_FOUND_WITH_ID + bookingId));
 		 this.bookingRepository.delete(existingBooking);
 		 return ResponseEntity.ok().build();
-	}
-
-	// get all Bookings
-	@GetMapping
-	public List<Booking> getAllBookings() {
-		return this.bookingRepository.findAll();
 	}
 
 }

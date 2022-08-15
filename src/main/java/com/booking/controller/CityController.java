@@ -18,26 +18,22 @@ public class CityController {
 	@Autowired
 	private CityRepository cityRepository;
 
-	// get all City
 	@GetMapping
 	public List<City> getAllCity() {
 		return this.cityRepository.findAll();
 	}
 
-	// get City by id
 	@GetMapping("/{id}")
 	public City getCityById(@PathVariable (value = "id") long cityId) {
 		return this.cityRepository.findById(cityId)
 				.orElseThrow(() -> new ResourceNotFoundException(CommonConstant.CITY_NOT_FOUND_WITH_ID + cityId));
 	}
 
-	// create City
 	@PostMapping
 	public City createCity(@RequestBody City city) {
 		return this.cityRepository.save(city);
 	}
 	
-	// update City
 	@PutMapping("/{id}")
 	public City updateCity(@RequestBody City city, @PathVariable ("id") long cityId) {
 		 City existingCity = this.cityRepository.findById(cityId)
@@ -46,7 +42,6 @@ public class CityController {
 		 return this.cityRepository.save(existingCity);
 	}
 	
-	// delete City by id
 	@DeleteMapping("/{id}")
 	public ResponseEntity<City> deleteCity(@PathVariable ("id") long cityId){
 		 City existingCity = this.cityRepository.findById(cityId)

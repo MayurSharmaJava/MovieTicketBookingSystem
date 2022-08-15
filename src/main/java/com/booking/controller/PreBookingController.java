@@ -25,14 +25,12 @@ public class PreBookingController {
 	@Autowired
 	private EntityManager entityManager;
 
-	// get all Bookings
+	//--TODO Pagination
 	@GetMapping
 	public List<PreBooking> getAllBookings() {
 		return this.preBookingRepository.findAll();
 	}
 
-	// get PreBooking by id
-	// TODO: Put Optional in return
 	@GetMapping("/{lockPattern}")
 	public Optional<PreBooking> getPreBookingByLockPattern(
 				@PathVariable (value = "lockPattern") String lockPattern) {
@@ -54,7 +52,6 @@ public class PreBookingController {
 		return Optional.empty();
 	}
 
-	// get PreBooking by id
 	@GetMapping("/{id}")
 	public PreBooking getBookingById(@PathVariable (value = "id") long bookingId) {
 		return this.preBookingRepository.findById(bookingId)
@@ -62,13 +59,11 @@ public class PreBookingController {
 
 	}
 
-	// create PreBooking
 	@PostMapping
 	public PreBooking createBooking(@RequestBody PreBooking preBooking) {
 		return this.preBookingRepository.save(preBooking);
 	}
 
-	// update PreBooking
 	@PutMapping("/{id}")
 	public PreBooking updateBooking(@RequestBody PreBooking preBooking, @PathVariable ("id") long bookingId) {
 		 PreBooking existingBooking = this.preBookingRepository.findById(bookingId)
@@ -79,7 +74,6 @@ public class PreBookingController {
 		return this.preBookingRepository.save(existingBooking);
 	}
 
-	// delete PreBooking by id
 	@DeleteMapping("/{id}")
 	public ResponseEntity<PreBooking> deleteBooking(@PathVariable ("id") long bookingId){
 		 PreBooking existingBooking = this.preBookingRepository.findById(bookingId)

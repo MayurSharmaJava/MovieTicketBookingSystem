@@ -2,6 +2,7 @@ package com.booking.controller;
 
 import java.util.List;
 
+import com.booking.constant.CommonConstant;
 import com.booking.entity.User;
 import com.booking.exception.ResourceNotFoundException;
 import com.booking.repository.UserRepository;
@@ -24,41 +25,36 @@ public class UserController {
 	@Autowired
 	private UserRepository userRepository;
 
-	// get all users
 	@GetMapping
 	public List<User> getAllUsers() {
 		return this.userRepository.findAll();
 	}
 
-	// get user by id
 	@GetMapping("/{id}")
 	public User getUserById(@PathVariable (value = "id") long userId) {
 		return this.userRepository.findById(userId)
-				.orElseThrow(() -> new ResourceNotFoundException("User not found with id :" + userId));
+				.orElseThrow(() -> new ResourceNotFoundException(CommonConstant.USER_NOT_FOUND_WITH_ID + userId));
 	}
 
-	// create user
 	@PostMapping
 	public User createUser(@RequestBody User user) {
 		return this.userRepository.save(user);
 	}
 	
-	// update user
 	@PutMapping("/{id}")
 	public User updateUser(@RequestBody User user, @PathVariable ("id") long userId) {
 		 User existingUser = this.userRepository.findById(userId)
-			.orElseThrow(() -> new ResourceNotFoundException("User not found with id :" + userId));
+			.orElseThrow(() -> new ResourceNotFoundException(CommonConstant.USER_NOT_FOUND_WITH_ID + userId));
 		 existingUser.setFirstName(user.getFirstName());
 		 existingUser.setLastName(user.getLastName());
 		 existingUser.setEmail(user.getEmail());
 		 return this.userRepository.save(existingUser);
 	}
 	
-	// delete user by id
 	@DeleteMapping("/{id}")
 	public ResponseEntity<User> deleteUser(@PathVariable ("id") long userId){
 		 User existingUser = this.userRepository.findById(userId)
-					.orElseThrow(() -> new ResourceNotFoundException("User not found with id :" + userId));
+					.orElseThrow(() -> new ResourceNotFoundException(CommonConstant.USER_NOT_FOUND_WITH_ID + userId));
 		 this.userRepository.delete(existingUser);
 		 return ResponseEntity.ok().build();
 	}

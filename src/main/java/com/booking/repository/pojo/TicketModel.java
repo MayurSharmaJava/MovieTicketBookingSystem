@@ -1,12 +1,12 @@
-package com.booking.pojo;
+package com.booking.repository.pojo;
 
-import com.booking.entity.*;
+import com.booking.entity.Payment;
+import com.booking.entity.Seat;
+import com.booking.entity.User;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
-import org.hibernate.annotations.Cascade;
 import org.springframework.hateoas.RepresentationModel;
 
-import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 

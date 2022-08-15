@@ -4,11 +4,7 @@ import com.booking.entity.MovieShow;
 import com.booking.entity.Seat;
 import com.booking.exception.ResourceNotFoundException;
 import com.booking.repository.MovieShowRepository;
-import org.hibernate.Session;
-import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.Link;
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +22,7 @@ public class MovieShowController {
 	@Autowired
 	private EntityManager entityManager;
 
-	// get all users
+	// get all seats for a movie Show
 	@GetMapping("/{id}/seats")
 	public List<Seat> getSeatByMovieShow(
 			@PathVariable ("id") long movieShowId
@@ -35,27 +31,23 @@ public class MovieShowController {
 		return movieShowById.getSeats();
 	}
 
-	// get all MovieShowShow
-	//TODO: Pagination
+	//TODO: pagination
 	@GetMapping
 	public List<MovieShow> getAllMovieShow() {
 		return this.movieShowRepository.findAll();
 	}
 
-	// get MovieShow by id
 	@GetMapping("/{id}")
 	public MovieShow getMovieShowById(@PathVariable (value = "id") long movieShowId) {
 		return this.movieShowRepository.findById(movieShowId)
 				.orElseThrow(() -> new ResourceNotFoundException("MovieShow not found with id :" + movieShowId));
 	}
 
-	// create MovieShow
 	@PostMapping
 	public MovieShow createMovieShow(@RequestBody MovieShow movieShow) {
 		return this.movieShowRepository.save(movieShow);
 	}
 	
-	// update MovieShow
 	@PutMapping("/{id}")
 	public MovieShow updateMovieShow(@RequestBody MovieShow movieShow, @PathVariable ("id") long movieShowId) {
 		MovieShow existingMovieShow = this.movieShowRepository.findById(movieShowId)
@@ -71,7 +63,6 @@ public class MovieShowController {
 		return this.movieShowRepository.save(existingMovieShow);
 	}
 	
-	// delete MovieShow by id
 	@DeleteMapping("/{id}")
 	public ResponseEntity<MovieShow> deleteMovieShow(@PathVariable ("id") long movieShowId){
 		 MovieShow existingMovieShow = this.movieShowRepository.findById(movieShowId)
