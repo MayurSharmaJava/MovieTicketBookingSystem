@@ -4,6 +4,7 @@ import com.booking.entity.MovieShow;
 import com.booking.entity.Seat;
 import com.booking.exception.ResourceNotFoundException;
 import com.booking.repository.MovieShowRepository;
+import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +33,7 @@ public class MovieShowController {
 	}
 
 	//TODO: pagination
+	@Hidden
 	@GetMapping
 	public List<MovieShow> getAllMovieShow() {
 		return this.movieShowRepository.findAll();
@@ -47,7 +49,8 @@ public class MovieShowController {
 	public MovieShow createMovieShow(@RequestBody MovieShow movieShow) {
 		return this.movieShowRepository.save(movieShow);
 	}
-	
+
+	//--PAGINATION DONE HERE
 	@PutMapping("/{id}")
 	public MovieShow updateMovieShow(@RequestBody MovieShow movieShow, @PathVariable ("id") long movieShowId) {
 		MovieShow existingMovieShow = this.movieShowRepository.findById(movieShowId)
@@ -62,7 +65,8 @@ public class MovieShowController {
 		existingMovieShow.setSeats(movieShow.getSeats());
 		return this.movieShowRepository.save(existingMovieShow);
 	}
-	
+
+	@Hidden
 	@DeleteMapping("/{id}")
 	public ResponseEntity<MovieShow> deleteMovieShow(@PathVariable ("id") long movieShowId){
 		 MovieShow existingMovieShow = this.movieShowRepository.findById(movieShowId)

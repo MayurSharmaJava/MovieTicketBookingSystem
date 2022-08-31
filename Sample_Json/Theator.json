@@ -1,11 +1,9 @@
 {
-  "id": 0,
   "name": "MaxusCinema",
-  "pinCode": "401105",
+  "pinCode": "401101",
   "address": {
-	"id": 0,
-    "addressLine1": "Add Line 1",
-    "addressLine2": "Address Line 2",
+    "addressLine1": "Maxus Mall Rd, next to Trends Footwear, Bhayandar, ",
+    "addressLine2": "Padmavati Nagar, Bhayandar West, Mira Bhayandar",
     "city": {"id": 1},
     "country": "India",
     "state": "Maharastra"
@@ -13,26 +11,23 @@
   "screen": [
     {
       "capacity": 200,
-      "id": 0,
       "name": "Screen1"
     },
-	{
+    {
       "capacity": 100,
-      "id": 0,
       "name": "Screen2"
     }
   ]
 }
 
+,
 
 {
-  "id": 0,
   "name": "CineMax",
-  "pinCode": "401105",
+  "pinCode": "401107",
   "address": {
-	"id": 0,
-    "addressLine1": "Add Line 1",
-    "addressLine2": "Address Line 2",
+    "addressLine1": "Beverly Park Rd, Vagad Nagar,",
+    "addressLine2": "Beverly Park, Mira Road, Mira Bhayandar.",
     "city": {"id": 2},
     "country": "India",
     "state": "Maharastra"
@@ -40,27 +35,23 @@
   "screen": [
     {
       "capacity": 100,
-      "id": 0,
       "name": "Screen1"
     },
 	{
       "capacity": 50,
-      "id": 0,
       "name": "Screen2"
     }
   ]
 }
 
-
+,
 
 {
-  "id": 0,
   "name": "PVR Cinema",
-  "pinCode": "401105",
+  "pinCode": "401107",
   "address": {
-	"id": 0,
-    "addressLine1": "Add Line 1",
-    "addressLine2": "Address Line 2",
+	"addressLine1": "3rd Floor, Thakur Mall, Near Dahisar Toll Naka,",
+    "addressLine2": "Ketkipada, Mira Road",
     "city": {"id": 3},
     "country": "India",
     "state": "Maharastra"
@@ -68,12 +59,10 @@
   "screen": [
     {
       "capacity": 500,
-      "id": 0,
       "name": "Screen1"
     },
 	{
       "capacity": 500,
-      "id": 0,
       "name": "Screen2"
     }
   ]

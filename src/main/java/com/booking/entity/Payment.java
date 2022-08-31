@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Getter
 @Setter
@@ -29,7 +30,7 @@ public class Payment {
 	private String type;
 	
 	@Column(name = "amount")
-	private double amount;
+	private BigDecimal amount;
 
 	@Column(name = "status")
 	private String status;

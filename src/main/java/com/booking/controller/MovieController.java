@@ -3,6 +3,7 @@ package com.booking.controller;
 import com.booking.entity.Movie;
 import com.booking.exception.ResourceNotFoundException;
 import com.booking.repository.MovieRepository;
+import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,11 +29,12 @@ public class MovieController {
 				.orElseThrow(() -> new ResourceNotFoundException("Movie not found with id :" + movieId));
 	}
 
-	@PostMapping
+	@	PostMapping
 	public Movie createMovie(@RequestBody Movie movie) {
 		return this.movieRepository.save(movie);
 	}
-	
+
+	@Hidden
 	@PutMapping("/{id}")
 	public Movie updateMovie(@RequestBody Movie movie, @PathVariable ("id") long movieId) {
 		 Movie existingMovie = this.movieRepository.findById(movieId)
@@ -41,7 +43,8 @@ public class MovieController {
 		 existingMovie.setImdbNumber(movie.getImdbNumber());
 		 return this.movieRepository.save(existingMovie);
 	}
-	
+
+	@Hidden
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Movie> deleteMovie(@PathVariable ("id") long movieId){
 		 Movie existingMovie = this.movieRepository.findById(movieId)

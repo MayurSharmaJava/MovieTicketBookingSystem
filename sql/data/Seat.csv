@@ -1,0 +1,10 @@
+"id";"price";"seat_number";"status";"type";"movie_show_id";"booking_id"
+4;100.0;"A1";"Available";"Economy";4;0
+5;100.0;"A2";"Available";"Economy";4;0
+6;500.0;"A3";"Available";"VIP";4;0
+7;200.0;"A1";"Available";"Premium";5;0
+8;200.0;"A2";"Available";"Premium";5;0
+9;500.0;"A3";"Available";"VIP";5;0
+10;200.0;"A1";"Available";"Premium";6;0
+11;200.0;"A2";"Available";"Premium";6;0
+12;500.0;"A3";"Available";"VIP";6;0

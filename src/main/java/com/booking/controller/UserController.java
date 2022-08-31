@@ -6,6 +6,8 @@ import com.booking.constant.CommonConstant;
 import com.booking.entity.User;
 import com.booking.exception.ResourceNotFoundException;
 import com.booking.repository.UserRepository;
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
+
 @RequestMapping("/api/users")
 public class UserController {
 
@@ -30,17 +33,20 @@ public class UserController {
 		return this.userRepository.findAll();
 	}
 
+	@Hidden()
 	@GetMapping("/{id}")
 	public User getUserById(@PathVariable (value = "id") long userId) {
 		return this.userRepository.findById(userId)
 				.orElseThrow(() -> new ResourceNotFoundException(CommonConstant.USER_NOT_FOUND_WITH_ID + userId));
 	}
 
+	@Hidden()
 	@PostMapping
 	public User createUser(@RequestBody User user) {
 		return this.userRepository.save(user);
 	}
-	
+
+	@Hidden()
 	@PutMapping("/{id}")
 	public User updateUser(@RequestBody User user, @PathVariable ("id") long userId) {
 		 User existingUser = this.userRepository.findById(userId)
@@ -50,7 +56,8 @@ public class UserController {
 		 existingUser.setEmail(user.getEmail());
 		 return this.userRepository.save(existingUser);
 	}
-	
+
+	@Hidden()
 	@DeleteMapping("/{id}")
 	public ResponseEntity<User> deleteUser(@PathVariable ("id") long userId){
 		 User existingUser = this.userRepository.findById(userId)

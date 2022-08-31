@@ -3,9 +3,10 @@ package com.booking.controller;
 import com.booking.entity.MovieShow;
 import com.booking.entity.Theater;
 import com.booking.exception.ResourceNotFoundException;
-import com.booking.repository.pojo.MovieShowModel;
-import com.booking.repository.pojo.TheaterModel;
+import com.booking.pojo.MovieShowModel;
+import com.booking.pojo.TheaterModel;
 import com.booking.repository.TheaterRepository;
+import io.swagger.v3.oas.annotations.Hidden;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -37,24 +39,27 @@ public class TheaterController {
 			@RequestParam ("movie_id") long movieId,
 			@RequestParam (value = "city_id") long cityId,
 			@RequestParam (value = "search_date") String searchDate,
-			@RequestParam (value = "page") int page,
-			@RequestParam (value = "size") int size) {
+			@RequestParam (value = "page") Optional<Integer> page,
+			@RequestParam (value = "size") Optional<Integer> size ) {
+
+		;
+
 		Session session = entityManager.unwrap(Session.class);
 
 		String hql = "FROM MovieShow S WHERE S.movie.id = :movie_id " +
 				"						 and S.theater.address.city.id = :city_id" +
 				"						 and S.date = :search_date";
 		Query query = session.createQuery(hql);
-		query.setFirstResult(page*size);
-		query.setMaxResults(size);
+		query.setFirstResult(page.orElse(0)*size.orElse(20));
+		query.setMaxResults(size.orElse(20));
 
 		query.setParameter("movie_id",movieId);
 		query.setParameter("city_id",cityId);
 
-		SimpleDateFormat formatter=new SimpleDateFormat("dd-MM-yyyy");
+		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 		try {
 			Date date = formatter.parse(searchDate);
-			query.setParameter("search_date",date);
+			query.setParameter("search_date", date);
 		} catch (ParseException e) {
 			//TODO: --Handel Exception Invalid Date and Return Proper Response
 			e.printStackTrace();
@@ -65,6 +70,8 @@ public class TheaterController {
 		list.forEach(x-> {
 			Theater theater = x.getTheater();
 			TheaterModel theaterModel = new TheaterModel(theater.getId(),theater.getName(), theater.getPinCode());
+
+			/** Theater Address Detail incase we want to show direction on Map **/
 			Link theaterLink = WebMvcLinkBuilder.linkTo(
 							WebMvcLinkBuilder.methodOn(TheaterController.class).getTheaterById(theater.getId())
 						).withRel("Theater Details");
@@ -72,7 +79,6 @@ public class TheaterController {
 
 			MovieShowModel movieShowModel = new MovieShowModel();
 			movieShowModel.setTheater(theaterModel);
-
 			movieShowModel.setId(x.getId());
 			movieShowModel.setName(x.getName());
 			movieShowModel.setMovie(x.getMovie());
@@ -80,8 +86,8 @@ public class TheaterController {
 			movieShowModel.setStartTime(x.getStartTime());
 			movieShowModel.setEndTime(x.getEndTime());
 
+			/** all seats To Show Seat map **/
 			Link seatLink = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(MovieShowController.class).getSeatByMovieShow(x.getId())).withRel("seat availability");
-
 			movieShowModel.add(seatLink);
 
 			movieShowModels.add(movieShowModel);
@@ -100,7 +106,8 @@ public class TheaterController {
 	public Theater createTheater(@RequestBody Theater theater) {
 		return this.theaterRepository.save(theater);
 	}
-	
+
+	@Hidden
 	@PutMapping
 	public Theater updateTheater(@RequestBody Theater theater, @PathVariable ("id") long theaterId) {
 		 Theater existingTheater = this.theaterRepository.findById(theaterId)
@@ -111,7 +118,8 @@ public class TheaterController {
 		 existingTheater.setScreen(theater.getScreen());
 		 return this.theaterRepository.save(existingTheater);
 	}
-	
+
+	@Hidden
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Theater> deleteTheater(@PathVariable ("id") long theaterId){
 		 Theater existingTheater = this.theaterRepository.findById(theaterId)

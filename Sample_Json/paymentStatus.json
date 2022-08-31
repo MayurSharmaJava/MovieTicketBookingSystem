@@ -1,7 +1,4 @@
 {
-  "id": 11,
-  "transactionNo": "42341234",
-  "type": "UPI",
-  "amount": 200,
+  "transactionNo": "12345678",
   "status": "SUCCESS"
 }

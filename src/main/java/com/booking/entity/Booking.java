@@ -5,6 +5,7 @@ import lombok.Setter;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -36,7 +37,7 @@ public class Booking {
 	private String status;
 
 	@Column(name = "amount")
-	private double amount;
+	private BigDecimal amount;
 
 	@OneToOne
 	@Cascade(org.hibernate.annotations.CascadeType.ALL)

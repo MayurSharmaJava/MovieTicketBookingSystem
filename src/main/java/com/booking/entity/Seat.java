@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Getter
 @Setter
@@ -30,5 +31,5 @@ public class Seat {
 	private String type;
 	
 	@Column(name = "price")
-	private double price;
+	private BigDecimal price;
 }

@@ -9,4 +9,7 @@ public final class CommonConstant {
     public static final String AVAILABLE = "Available";
     public static final String PENDING = "Pending";
     public static final String PAYMENT_SUCCESS = "SUCCESS";
+    public static final String PAYMENT_PENDING = "PENDING";
+
+    private CommonConstant() {}
 }

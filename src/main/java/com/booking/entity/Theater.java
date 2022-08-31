@@ -1,5 +1,6 @@
 package com.booking.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Cascade;
@@ -29,6 +30,7 @@ public class Theater{
     @Column(name = "pinCode")
     private String pinCode;
 
+    @JsonIgnore
     @OneToMany
     @Cascade(CascadeType.ALL)
     @JoinColumn(name = "theater_id")
