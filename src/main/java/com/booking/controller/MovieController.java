@@ -2,12 +2,18 @@ package com.booking.controller;
 
 import com.booking.entity.Movie;
 import com.booking.exception.ResourceNotFoundException;
+import com.booking.pojo.MovieModel;
 import com.booking.repository.MovieRepository;
 import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.LinkRelation;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 
@@ -24,9 +30,17 @@ public class MovieController {
 	}
 
 	@GetMapping("/{id}")
-	public Movie getMovieById(@PathVariable (value = "id") long movieId) {
-		return this.movieRepository.findById(movieId)
+	public MovieModel getMovieById(@PathVariable (value = "id") long movieId) {
+		Movie movie = this.movieRepository.findById(movieId)
 				.orElseThrow(() -> new ResourceNotFoundException("Movie not found with id :" + movieId));
+		return getMovieModel(movie);
+	}
+
+	private MovieModel getMovieModel(Movie movie) {
+		MovieModel movieModel = new MovieModel(movie.getId(), movie.getName(), movie.getImdbNumber());
+		Link imdbLink = Link.of("https://www.imdb.com/title/"+ movie.getImdbNumber(), LinkRelation.of("Self"));
+		movieModel.add(imdbLink);
+		return movieModel;
 	}
 
 	@	PostMapping
