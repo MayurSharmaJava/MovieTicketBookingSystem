@@ -1,23 +1,21 @@
 {
-  "amount": 200,
-  "bookingDate": "2022-07-20T01:40:32.812Z",
+  "bookingDate": "2022-09-02T01:40:32.812Z",
   "movieShow": {
-    "id": 4
+    "id": 3
   },
   "payment": {
-    "id": 0,
     "transactionNo": "12345678",
     "type": "UPI"
   },
   "seats": [
     {
-      "id": 1
+      "id": 7
     },
     {
-      "id": 2
+      "id": 8
     }
   ],
   "user": {
-    "id": 4
+    "id": 1
   }
 }

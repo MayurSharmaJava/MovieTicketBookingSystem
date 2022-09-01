@@ -20,4 +20,5 @@ public class Screen {
 
 	@Column(name = "capacity")
 	private int capacity;
+
 }

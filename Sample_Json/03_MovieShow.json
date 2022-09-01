@@ -1,0 +1,109 @@
+[
+  {
+    "name": "Morning Show",
+    "date": "2022-09-02T00:00:00.000Z",
+    "startTime": "2022-09-02T06:00:15.088Z",
+    "endTime": "2022-09-02T09:00:15.088Z",
+    "movie": {
+      "id": 1
+    },
+    "theater": {
+      "id": 1
+    },
+    "screen": {
+      "id": 1
+    },
+    "seats": [
+      {
+        "price": 100,
+        "seatNumber": "A1",
+        "status": "Available",
+        "type": "Premium"
+      },
+      {
+        "price": 100,
+        "seatNumber": "A2",
+        "status": "Available",
+        "type": "Premium"
+      },
+      {
+        "price": 100,
+        "seatNumber": "A3",
+        "status": "Available",
+        "type": "VIP"
+      }
+    ]
+  },
+  {
+    "name": "Evening Show",
+    "date": "2022-09-02T00:00:00.000Z",
+    "startTime": "2022-09-02T18:00:15.088Z",
+    "endTime": "2022-09-02T21:00:15.088Z",
+    "id": 0,
+    "movie": {
+      "id": 2
+    },
+    "theater": {
+      "id": 2
+    },
+    "screen": {
+      "id": 3
+    },
+    "seats": [
+      {
+        "price": 100,
+        "seatNumber": "A1",
+        "status": "Available",
+        "type": "Economy"
+      },
+      {
+        "price": 100,
+        "seatNumber": "A2",
+        "status": "Available",
+        "type": "Economy"
+      },
+      {
+        "price": 100,
+        "seatNumber": "A3",
+        "status": "Available",
+        "type": "VIP"
+      }
+    ]
+  },
+  {
+    "name": "Afternoon Show",
+    "date": "2022-09-02T00:00:00.000Z",
+    "startTime": "2022-09-02T12:00:15.088Z",
+    "endTime": "2022-09-02T15:00:15.088Z",
+    "id": 0,
+    "movie": {
+      "id": 3
+    },
+    "theater": {
+      "id": 3
+    },
+    "screen": {
+      "id": 5
+    },
+    "seats": [
+      {
+        "price": 100,
+        "seatNumber": "A1",
+        "status": "Available",
+        "type": "Economy"
+      },
+      {
+        "price": 100,
+        "seatNumber": "A2",
+        "status": "Available",
+        "type": "Economy"
+      },
+      {
+        "price": 100,
+        "seatNumber": "A3",
+        "status": "Available",
+        "type": "VIP"
+      }
+    ]
+  }
+]

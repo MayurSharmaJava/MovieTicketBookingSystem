@@ -30,7 +30,6 @@ public class Theater{
     @Column(name = "pinCode")
     private String pinCode;
 
-    @JsonIgnore
     @OneToMany
     @Cascade(CascadeType.ALL)
     @JoinColumn(name = "theater_id")

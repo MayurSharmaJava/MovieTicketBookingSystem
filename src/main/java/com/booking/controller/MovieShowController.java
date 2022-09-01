@@ -50,7 +50,8 @@ public class MovieShowController {
 		return this.movieShowRepository.save(movieShow);
 	}
 
-	//--PAGINATION DONE HERE
+	//--TODO: PAGINATION TO BE DONE HERE
+	@Hidden
 	@PutMapping("/{id}")
 	public MovieShow updateMovieShow(@RequestBody MovieShow movieShow, @PathVariable ("id") long movieShowId) {
 		MovieShow existingMovieShow = this.movieShowRepository.findById(movieShowId)

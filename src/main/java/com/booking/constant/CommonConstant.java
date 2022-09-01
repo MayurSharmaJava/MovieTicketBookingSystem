@@ -11,5 +11,11 @@ public final class CommonConstant {
     public static final String PAYMENT_SUCCESS = "SUCCESS";
     public static final String PAYMENT_PENDING = "PENDING";
 
+    public static enum SEAT_TYPE {
+        Economy,
+        Premium,
+        VIP
+    }
+
     private CommonConstant() {}
 }

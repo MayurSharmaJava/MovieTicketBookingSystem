@@ -8,6 +8,7 @@ import com.booking.entity.Payment;
 import com.booking.entity.PreBooking;
 import com.booking.entity.Seat;
 import com.booking.exception.ResourceNotFoundException;
+import com.booking.pojo.MovieModel;
 import com.booking.pojo.PaymentModel;
 import com.booking.pojo.PreBookModel;
 import com.booking.pojo.TicketModel;
@@ -18,6 +19,7 @@ import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
+import org.springframework.hateoas.LinkRelation;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -139,6 +141,14 @@ public class BookingController {
 		ticketModel.setTheaterName(booking.getMovieShow().getTheater().getName());
 		ticketModel.setScreen(booking.getMovieShow().getScreen().getName());
 
+		Link imdbLink = Link.of("https://www.imdb.com/title/"+ booking.getMovieShow().getMovie().getImdbNumber(), LinkRelation.of("Movie Details"));
+		ticketModel.add(imdbLink);
+
+		Link theaterLink = WebMvcLinkBuilder.linkTo(
+				WebMvcLinkBuilder.methodOn(TheaterController.class).getTheaterById(booking.getMovieShow().getTheater().getId())
+		).withRel("Theater Details");
+		ticketModel.add(theaterLink);
+
 		return ticketModel;
 	}
 
@@ -147,6 +157,7 @@ public class BookingController {
 				.orElseThrow(() -> new ResourceNotFoundException(CommonConstant.BOOKING_NOT_FOUND_WITH_ID + bookingId));
 	}
 
+	@Hidden
 	@PostMapping
 	public Booking createBooking(@RequestBody Booking booking) {
 		return this.bookingRepository.save(booking);
