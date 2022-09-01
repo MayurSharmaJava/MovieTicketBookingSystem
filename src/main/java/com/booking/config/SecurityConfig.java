@@ -2,6 +2,7 @@ package com.booking.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -37,6 +38,12 @@ public class SecurityConfig {
                 .csrf().disable()
 
                 .authorizeHttpRequests(auth -> auth
+                        .mvcMatchers(HttpMethod.POST,"/api/movie").hasRole("ADMIN")
+                        .mvcMatchers(HttpMethod.POST,"/api/theaters").hasRole("ADMIN")
+                        .mvcMatchers(HttpMethod.POST,"/api/movie-show").hasRole("ADMIN")
+                        .mvcMatchers(HttpMethod.POST,"/api/city").hasRole("ADMIN")
+                        .mvcMatchers(HttpMethod.DELETE,"/api/pre-booking-lock/**").hasRole("ADMIN")
+                        .mvcMatchers(HttpMethod.POST,"/api/payment/**").hasRole("ADMIN")
                         .antMatchers( "/**").authenticated()
                 ).httpBasic(Customizer.withDefaults());
 
