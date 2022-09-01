@@ -11,11 +11,6 @@ import java.math.BigDecimal;
 @Entity
 @Table(name = "Seat")
 public class Seat {
-	enum SEAT_TYPE {
-		Economy,
-		Premium,
-		VIP
-	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "seat_sequence")

@@ -1,15 +1,12 @@
 package com.booking.controller;
 
-import com.booking.Util.CommonUtil;
-import com.booking.Util.PriceCalculator;
+import com.booking.util.CommonUtil;
+import com.booking.util.PriceCalculator;
 import com.booking.constant.CommonConstant;
 import com.booking.entity.Booking;
-import com.booking.entity.Payment;
 import com.booking.entity.PreBooking;
 import com.booking.entity.Seat;
 import com.booking.exception.ResourceNotFoundException;
-import com.booking.pojo.MovieModel;
-import com.booking.pojo.PaymentModel;
 import com.booking.pojo.PreBookModel;
 import com.booking.pojo.TicketModel;
 import com.booking.repository.BookingRepository;
@@ -26,7 +23,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityManager;
 import java.math.BigDecimal;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -70,10 +66,10 @@ public class BookingController {
 			booking.setSeats(seats);
 
 			PriceCalculator calculator = new PriceCalculator(new NoDiscountStrategy());/** Strategy Pattern **/
-			BigDecimal calculated_amount = calculator.calculate(booking);
-			booking.setAmount(calculated_amount);
+			BigDecimal calculatedAmount = calculator.calculate(booking);
+			booking.setAmount(calculatedAmount);
 
-			booking.getPayment().setAmount(calculated_amount);
+			booking.getPayment().setAmount(calculatedAmount);
 			booking.getPayment().setStatus(CommonConstant.PAYMENT_PENDING);
 
 			/** Booking saved with Pending Status **/

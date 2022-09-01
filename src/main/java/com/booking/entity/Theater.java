@@ -1,11 +1,10 @@
 package com.booking.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Cascade;
-
 import org.hibernate.annotations.CascadeType;
+
 import javax.persistence.*;
 import java.util.List;
 

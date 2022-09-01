@@ -4,16 +4,13 @@ import com.booking.constant.CommonConstant;
 import com.booking.entity.Payment;
 import com.booking.exception.ResourceNotFoundException;
 import com.booking.pojo.PaymentModel;
-import com.booking.pojo.TicketModel;
 import com.booking.repository.PaymentRepository;
 import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 

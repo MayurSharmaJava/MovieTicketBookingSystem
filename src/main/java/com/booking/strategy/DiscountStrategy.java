@@ -11,7 +11,7 @@ public class DiscountStrategy implements PriceStrategy{
     public BigDecimal calculateTotal(Booking booking) {
         BigDecimal total= BigDecimal.valueOf(0);
         for (Seat seat: booking.getSeats()) {
-            total.add(seat.getPrice());
+            total = total.add(seat.getPrice());
         }
         /**
          * 10% discount is hardcoded here can be fetched from database

@@ -1,11 +1,10 @@
-package com.booking.Util;
+package com.booking.util;
 
 import com.booking.entity.Booking;
 
 public class CommonUtil {
-    public CommonUtil() {
-    }
 
+    private CommonUtil(){}
     public static String getLockPattern(Booking booking) {
 
         StringBuilder seatIds = new StringBuilder();

@@ -1,5 +1,6 @@
 package com.booking.controller;
 
+import com.booking.constant.CommonConstant;
 import com.booking.entity.MovieShow;
 import com.booking.entity.Seat;
 import com.booking.exception.ResourceNotFoundException;
@@ -16,6 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/movie-show")
 public class MovieShowController {
+
 
 	@Autowired
 	private MovieShowRepository movieShowRepository;
@@ -42,7 +44,7 @@ public class MovieShowController {
 	@GetMapping("/{id}")
 	public MovieShow getMovieShowById(@PathVariable (value = "id") long movieShowId) {
 		return this.movieShowRepository.findById(movieShowId)
-				.orElseThrow(() -> new ResourceNotFoundException("MovieShow not found with id :" + movieShowId));
+				.orElseThrow(() -> new ResourceNotFoundException(CommonConstant.MOVIE_SHOW_NOT_FOUND_WITH_ID + movieShowId));
 	}
 
 	@PostMapping
@@ -55,7 +57,7 @@ public class MovieShowController {
 	@PutMapping("/{id}")
 	public MovieShow updateMovieShow(@RequestBody MovieShow movieShow, @PathVariable ("id") long movieShowId) {
 		MovieShow existingMovieShow = this.movieShowRepository.findById(movieShowId)
-			.orElseThrow(() -> new ResourceNotFoundException("MovieShow not found with id :" + movieShowId));
+			.orElseThrow(() -> new ResourceNotFoundException(CommonConstant.MOVIE_SHOW_NOT_FOUND_WITH_ID + movieShowId));
 		existingMovieShow.setName(movieShow.getName());
 		existingMovieShow.setDate(movieShow.getDate());
 		existingMovieShow.setStartTime(movieShow.getStartTime());
@@ -71,7 +73,7 @@ public class MovieShowController {
 	@DeleteMapping("/{id}")
 	public ResponseEntity<MovieShow> deleteMovieShow(@PathVariable ("id") long movieShowId){
 		 MovieShow existingMovieShow = this.movieShowRepository.findById(movieShowId)
-					.orElseThrow(() -> new ResourceNotFoundException("MovieShow not found with id :" + movieShowId));
+					.orElseThrow(() -> new ResourceNotFoundException(CommonConstant.MOVIE_SHOW_NOT_FOUND_WITH_ID + movieShowId));
 		 this.movieShowRepository.delete(existingMovieShow);
 		 return ResponseEntity.ok().build();
 	}

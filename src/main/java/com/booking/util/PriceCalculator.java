@@ -1,4 +1,4 @@
-package com.booking.Util;
+package com.booking.util;
 
 import com.booking.entity.Booking;
 import com.booking.strategy.PriceStrategy;

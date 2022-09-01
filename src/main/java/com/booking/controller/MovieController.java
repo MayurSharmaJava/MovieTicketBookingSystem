@@ -1,5 +1,6 @@
 package com.booking.controller;
 
+import com.booking.constant.CommonConstant;
 import com.booking.entity.Movie;
 import com.booking.exception.ResourceNotFoundException;
 import com.booking.pojo.MovieModel;
@@ -8,18 +9,16 @@ import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.LinkRelation;
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
 
-import java.net.URI;
 import java.util.List;
 
 
 @RestController
 @RequestMapping("/api/movie")
 public class MovieController {
+
 
 	@Autowired
 	private MovieRepository movieRepository;
@@ -32,7 +31,7 @@ public class MovieController {
 	@GetMapping("/{id}")
 	public MovieModel getMovieById(@PathVariable (value = "id") long movieId) {
 		Movie movie = this.movieRepository.findById(movieId)
-				.orElseThrow(() -> new ResourceNotFoundException("Movie not found with id :" + movieId));
+				.orElseThrow(() -> new ResourceNotFoundException(CommonConstant.MOVIE_NOT_FOUND_WITH_ID + movieId));
 		return getMovieModel(movie);
 	}
 
@@ -52,7 +51,7 @@ public class MovieController {
 	@PutMapping("/{id}")
 	public Movie updateMovie(@RequestBody Movie movie, @PathVariable ("id") long movieId) {
 		 Movie existingMovie = this.movieRepository.findById(movieId)
-			.orElseThrow(() -> new ResourceNotFoundException("Movie not found with id :" + movieId));
+			.orElseThrow(() -> new ResourceNotFoundException(CommonConstant.MOVIE_NOT_FOUND_WITH_ID + movieId));
 		 existingMovie.setName(movie.getName());
 		 existingMovie.setImdbNumber(movie.getImdbNumber());
 		 return this.movieRepository.save(existingMovie);
@@ -62,7 +61,7 @@ public class MovieController {
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Movie> deleteMovie(@PathVariable ("id") long movieId){
 		 Movie existingMovie = this.movieRepository.findById(movieId)
-					.orElseThrow(() -> new ResourceNotFoundException("Movie not found with id :" + movieId));
+					.orElseThrow(() -> new ResourceNotFoundException(CommonConstant.MOVIE_NOT_FOUND_WITH_ID + movieId));
 		 this.movieRepository.delete(existingMovie);
 		 return ResponseEntity.ok().build();
 	}

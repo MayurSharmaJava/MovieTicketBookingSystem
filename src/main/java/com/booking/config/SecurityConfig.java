@@ -1,5 +1,6 @@
 package com.booking.config;
 
+import com.booking.constant.CommonConstant;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -38,12 +39,12 @@ public class SecurityConfig {
                 .csrf().disable()
 
                 .authorizeHttpRequests(auth -> auth
-                        .mvcMatchers(HttpMethod.POST,"/api/movie").hasRole("ADMIN")
-                        .mvcMatchers(HttpMethod.POST,"/api/theaters").hasRole("ADMIN")
-                        .mvcMatchers(HttpMethod.POST,"/api/movie-show").hasRole("ADMIN")
-                        .mvcMatchers(HttpMethod.POST,"/api/city").hasRole("ADMIN")
-                        .mvcMatchers(HttpMethod.DELETE,"/api/pre-booking-lock/**").hasRole("ADMIN")
-                        .mvcMatchers(HttpMethod.POST,"/api/payment/**").hasRole("ADMIN")
+                        .mvcMatchers(HttpMethod.POST,"/api/movie").hasRole(CommonConstant.ROLE_ADMIN)
+                        .mvcMatchers(HttpMethod.POST,"/api/theaters").hasRole(CommonConstant.ROLE_ADMIN)
+                        .mvcMatchers(HttpMethod.POST,"/api/movie-show").hasRole(CommonConstant.ROLE_ADMIN)
+                        .mvcMatchers(HttpMethod.POST,"/api/city").hasRole(CommonConstant.ROLE_ADMIN)
+                        .mvcMatchers(HttpMethod.DELETE,"/api/pre-booking-lock/**").hasRole(CommonConstant.ROLE_ADMIN)
+                        .mvcMatchers(HttpMethod.POST,"/api/payment/**").hasRole(CommonConstant.ROLE_ADMIN)
                         .antMatchers( "/**").authenticated()
                 ).httpBasic(Customizer.withDefaults());
 
