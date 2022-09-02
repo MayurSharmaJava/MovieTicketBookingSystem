@@ -18,8 +18,11 @@ import java.util.List;
 public class HomeController {
 
 	@GetMapping
-	public List<User> getHomePage() {
-		return "Movie Ticket Booking System";
+	public String getHomePage() {
+		return " Movie Ticket Booking System(Proof Of Concept) <br><br>" +
+				"<a href='/swagger-ui/index.html'>" +
+				"Launch Swagger API" +
+				"<a>";
 	}
 
 }
