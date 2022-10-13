@@ -44,7 +44,9 @@ public class SecurityConfig {
                         .mvcMatchers(HttpMethod.POST,"/api/city").hasRole(CommonConstant.ROLE_ADMIN)
                         .mvcMatchers(HttpMethod.DELETE,"/api/pre-booking-lock/**").hasRole(CommonConstant.ROLE_ADMIN)
                         .mvcMatchers(HttpMethod.POST,"/api/payment/**").hasRole(CommonConstant.ROLE_ADMIN)
-                        .antMatchers( "/**").authenticated()
+                        .antMatchers( "/api/**").authenticated()
+                        .antMatchers( "/swagger-ui/**").authenticated()
+                        .antMatchers("/").permitAll()
                 ).httpBasic(Customizer.withDefaults());
 
         return http.build();
