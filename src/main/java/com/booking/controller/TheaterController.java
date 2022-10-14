@@ -47,8 +47,8 @@ public class TheaterController {
 		Session session = entityManager.unwrap(Session.class);
 
 		String hql = "FROM MovieShow S WHERE S.movie.id = :movie_id" +
-						" and S.theater.address.city.id = :city_id" +
-						" and S.date = :search_date";
+						" and S.theater.address.city.id = :city_id"/* +
+						" and S.date = :search_date"*/;
 		Query query = session.createQuery(hql);
 		query.setFirstResult(page.orElse(0)*size.orElse(20));
 		query.setMaxResults(size.orElse(20));
@@ -56,14 +56,14 @@ public class TheaterController {
 		query.setParameter("movie_id",movieId);
 		query.setParameter("city_id",cityId);
 
-		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+		/*SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 		try {
 			Date date = formatter.parse(searchDate);
 			query.setParameter("search_date", date);
 		} catch (ParseException e) {
 			//TODO: --Handel Exception Invalid Date and Return Proper Response
 			e.printStackTrace();
-		}
+		}*/
 
 		List<MovieShow> list = query.list();
 		List<MovieShowModel> movieShowModels = new ArrayList<>();
